@@ -79,19 +79,35 @@
                     id.addClass(settings.modalTarget+'-on');
                 } 
 
-                 if (id.hasClass(settings.modalTarget+'-on')) {
+                if (id.hasClass(settings.modalTarget+'-on')) {
                     settings.beforeOpen();
                     id.css({'opacity':settings.opacityIn,'z-index':settings.zIndexIn});
                     id.addClass(settings.animatedIn);  
                     id.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', afterOpen);
                 };  
             } 
+            bindKeyUp();
         });
-
-
 
         closeBt.click(function(event) {
             event.preventDefault();
+            close();
+        });
+
+        function bindKeyUp() {
+            $(document).keyup(keyUpFunc);
+        }
+
+        function unbindKeyUp() {
+            $(document).unbind("keyup", keyUpFunc);
+        }
+
+        function keyUpFunc(e) {
+            if (e.keyCode == 27)
+                close()
+        }
+
+        function close() {
             $('body, html').css({'overflow':'auto'});
 
             settings.beforeClose(); //beforeClose
@@ -106,7 +122,8 @@
                 id.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', afterClose);
             };
 
-        });
+            unbindKeyUp();
+        }
 
         function afterClose () {       
             id.css({'z-index':settings.zIndexOut});
