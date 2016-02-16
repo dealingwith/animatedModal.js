@@ -86,26 +86,16 @@
                     id.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', afterOpen);
                 };  
             } 
-            bindKeyUp();
+            $(document).one('keyup', function(e) {
+                if (e.keyCode == 27)
+                    close();
+            });
         });
 
         closeBt.click(function(event) {
             event.preventDefault();
             close();
         });
-
-        function bindKeyUp() {
-            $(document).keyup(keyUpFunc);
-        }
-
-        function unbindKeyUp() {
-            $(document).unbind("keyup", keyUpFunc);
-        }
-
-        function keyUpFunc(e) {
-            if (e.keyCode == 27)
-                close()
-        }
 
         function close() {
             $('body, html').css({'overflow':'auto'});
@@ -120,9 +110,7 @@
                 id.removeClass(settings.animatedIn);
                 id.addClass(settings.animatedOut);
                 id.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', afterClose);
-            };
-
-            unbindKeyUp();
+            }
         }
 
         function afterClose () {       
